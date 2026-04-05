@@ -3,10 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>王小明 — Developer</title>
+  <title>Joseph Huang · 機器人講師</title>
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -14,479 +15,523 @@
       --red: #e63946;
       --black: #111111;
       --white: #ffffff;
-      --cream: #f8f5f0;
+      --off: #f7f5f0;
       --gray: #888888;
-      --lightgray: #e8e4de;
+      --light: #eeece7;
       --serif: 'Playfair Display', Georgia, serif;
-      --sans: 'DM Sans', sans-serif;
+      --sans: 'DM Sans', Helvetica, sans-serif;
       --mono: 'DM Mono', monospace;
     }
 
     html { scroll-behavior: smooth; }
 
     body {
+      font-family: var(--sans);
       background: var(--white);
       color: var(--black);
-      font-family: var(--sans);
-      font-size: 15px;
-      line-height: 1.6;
       overflow-x: hidden;
     }
 
-    .issue-tape {
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
       background: var(--black);
-      color: var(--white);
-      text-align: center;
-      padding: 6px 0;
-      font-family: var(--mono);
-      font-size: 10px;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
+      display: flex;
+      align-items: stretch;
     }
 
-    nav {
-      border-bottom: 3px solid var(--black);
+    .nav-issue {
+      background: var(--red);
+      padding: 0 1.5rem;
       display: flex;
-      justify-content: space-between;
-      align-items: stretch;
-      position: sticky;
-      top: 0;
-      background: var(--white);
-      z-index: 100;
+      align-items: center;
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--white);
+      letter-spacing: 0.15em;
+      white-space: nowrap;
     }
 
     .nav-logo {
-      font-family: var(--serif);
-      font-weight: 900;
-      font-size: 1.5rem;
-      letter-spacing: -0.03em;
-      padding: 0.8rem 2rem;
-      border-right: 2px solid var(--black);
-      text-decoration: none;
-      color: var(--black);
+      padding: 0 2rem;
       display: flex;
       align-items: center;
+      font-family: var(--serif);
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: var(--white);
+      letter-spacing: 0.05em;
+      border-right: 1px solid #333;
     }
 
-    .nav-logo span { color: var(--red); }
-
-    .nav-links { display: flex; list-style: none; }
-    .nav-links li { border-left: 1px solid var(--lightgray); }
-
-    .nav-links a {
+    .nav-links {
       display: flex;
       align-items: center;
       padding: 0 1.5rem;
-      height: 100%;
-      text-decoration: none;
-      font-family: var(--mono);
-      font-size: 10px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--gray);
-      transition: color 0.2s, background 0.2s;
+      gap: 2rem;
+      flex: 1;
     }
 
-    .nav-links a:hover { color: var(--white); background: var(--black); }
-    .nav-links a.active { color: var(--white); background: var(--red); }
+    .nav-links a {
+      color: #aaa;
+      text-decoration: none;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+      padding: 1.1rem 0;
+    }
+
+    .nav-links a:hover, .nav-links a.active { color: var(--white); }
+    .nav-links a.active { border-bottom: 2px solid var(--red); }
+
+    .nav-date {
+      padding: 0 1.5rem;
+      display: flex;
+      align-items: center;
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: #555;
+      border-left: 1px solid #333;
+    }
 
     /* HERO */
-    #hero { border-bottom: 3px solid var(--black); }
-
-    .hero-inner {
+    #hero {
+      padding-top: 44px;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      min-height: 88vh;
+      min-height: 100vh;
     }
 
     .hero-left {
-      border-right: 2px solid var(--black);
-      padding: 4rem 3rem;
+      background: var(--black);
+      padding: 5rem 4rem 4rem;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      position: relative;
+      overflow: hidden;
     }
 
-    .issue-label {
+    .hero-left::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: var(--red);
+    }
+
+    .hero-eyebrow {
       font-family: var(--mono);
-      font-size: 10px;
-      letter-spacing: 0.3em;
+      font-size: 0.7rem;
+      color: var(--red);
+      letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: var(--gray);
+      margin-bottom: 2rem;
     }
 
     .hero-headline {
       font-family: var(--serif);
-      font-size: clamp(3.5rem, 8vw, 7rem);
+      font-size: clamp(3rem, 6vw, 5.5rem);
       font-weight: 900;
-      line-height: 0.92;
-      letter-spacing: -0.04em;
-      margin: 2rem 0;
+      color: var(--white);
+      line-height: 0.95;
+      letter-spacing: -0.02em;
     }
 
-    .hero-headline .line-red { color: var(--red); font-style: italic; }
-    .hero-headline .line-outline {
-      -webkit-text-stroke: 2.5px var(--black);
-      color: transparent;
+    .hero-headline em { color: var(--red); font-style: italic; }
+
+    .hero-subhead {
+      font-size: 1rem;
+      color: #777;
+      line-height: 1.8;
+      margin-top: 2rem;
+      max-width: 340px;
+      font-weight: 300;
     }
 
-    .hero-byline-rule { height: 2px; background: var(--black); margin-bottom: 1rem; }
-    .hero-role { font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gray); }
-    .hero-name { font-family: var(--serif); font-size: 1.4rem; font-weight: 700; margin-top: 0.25rem; }
-
-    .hero-right { display: flex; flex-direction: column; }
-
-    .hero-right-top {
-      flex: 1;
-      padding: 4rem 3rem;
+    .hero-bottom {
       display: flex;
-      flex-direction: column;
-      justify-content: center;
-      background: var(--cream);
-      border-bottom: 2px solid var(--black);
-    }
-
-    .hero-intro { font-family: var(--serif); font-size: 1.25rem; line-height: 1.8; }
-    .hero-intro em { color: var(--red); font-style: italic; }
-
-    .hero-right-bottom {
-      padding: 2rem 3rem;
-      display: flex;
-      gap: 2rem;
       align-items: center;
+      gap: 2rem;
+      margin-top: 4rem;
     }
 
-    .stat { display: flex; flex-direction: column; gap: 0.2rem; border-right: 1px solid var(--lightgray); padding-right: 2rem; }
-    .stat:last-of-type { border-right: none; }
-    .stat-num { font-family: var(--serif); font-size: 2rem; font-weight: 900; line-height: 1; }
-    .stat-label { font-family: var(--mono); font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gray); }
-
-    .cta-block { margin-left: auto; display: flex; gap: 0.75rem; }
-
-    .btn {
-      padding: 0.7rem 1.5rem;
-      font-family: var(--mono);
-      font-size: 10px;
-      letter-spacing: 0.15em;
+    .btn-primary {
+      background: var(--red);
+      color: var(--white);
+      padding: 0.8rem 2rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
       text-decoration: none;
-      border: 2px solid var(--black);
+      border: none;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: background 0.2s;
+      font-family: var(--sans);
     }
 
-    .btn-fill { background: var(--black); color: var(--white); }
-    .btn-fill:hover { background: var(--red); border-color: var(--red); }
-    .btn-outline { background: transparent; color: var(--black); }
-    .btn-outline:hover { background: var(--black); color: var(--white); }
+    .btn-primary:hover { background: #c1121f; }
 
-    /* SECTION HEADER */
+    .btn-ghost {
+      color: #555;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-bottom: 1px solid #333;
+      padding-bottom: 2px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .btn-ghost:hover { color: var(--white); border-color: #666; }
+
+    .hero-right {
+      background: var(--off);
+      padding: 5rem 4rem 4rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .hero-stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      border: 1px solid var(--light);
+      margin-top: auto;
+    }
+
+    .hero-stat {
+      padding: 1.5rem;
+      border-right: 1px solid var(--light);
+      border-bottom: 1px solid var(--light);
+    }
+
+    .hero-stat:nth-child(2n) { border-right: none; }
+    .hero-stat:nth-child(3), .hero-stat:nth-child(4) { border-bottom: none; }
+
+    .stat-num {
+      font-family: var(--serif);
+      font-size: 2.8rem;
+      font-weight: 900;
+      color: var(--black);
+      line-height: 1;
+    }
+
+    .stat-num span { color: var(--red); }
+
+    .stat-label {
+      font-size: 0.72rem;
+      color: var(--gray);
+      letter-spacing: 0.08em;
+      margin-top: 0.4rem;
+      text-transform: uppercase;
+    }
+
+    .issue-label {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--gray);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-pull {
+      font-family: var(--serif);
+      font-size: 1.5rem;
+      font-weight: 700;
+      font-style: italic;
+      line-height: 1.4;
+      color: var(--black);
+      padding-left: 1.5rem;
+      border-left: 4px solid var(--red);
+    }
+
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 2rem;
+    }
+
+    .tag {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      padding: 0.3rem 0.7rem;
+      background: var(--black);
+      color: var(--white);
+      letter-spacing: 0.08em;
+    }
+
+    .tag.red { background: var(--red); }
+    .tag.outline { background: transparent; border: 1px solid var(--black); color: var(--black); }
+
+    /* SECTIONS */
+    section { padding: 6rem 0; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 4rem; }
+
     .section-header {
       display: flex;
-      align-items: center;
-      gap: 1.5rem;
-      padding: 1.5rem 3rem;
-      border-bottom: 2px solid var(--black);
-      background: var(--cream);
+      align-items: baseline;
+      gap: 2rem;
+      margin-bottom: 3rem;
+      border-bottom: 3px solid var(--black);
+      padding-bottom: 1rem;
     }
 
-    .section-num { font-family: var(--serif); font-size: 3rem; font-weight: 900; color: var(--red); line-height: 1; }
-    .section-label-sm { font-family: var(--mono); font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gray); }
-    .section-title-lg { font-family: var(--serif); font-size: 1.8rem; font-weight: 700; line-height: 1.1; }
+    .section-num { font-family: var(--mono); font-size: 0.7rem; color: var(--red); letter-spacing: 0.1em; }
+    .section-title { font-family: var(--serif); font-size: 2.2rem; font-weight: 900; letter-spacing: -0.02em; }
+    .section-rule { flex: 1; height: 1px; background: var(--light); }
+    .section-sub { font-family: var(--mono); font-size: 0.65rem; color: var(--gray); letter-spacing: 0.1em; text-transform: uppercase; }
 
     /* ABOUT */
-    #about { border-bottom: 3px solid var(--black); }
+    .about-grid { display: grid; grid-template-columns: 3fr 2fr; gap: 5rem; }
+    .about-text { border-top: 1px solid var(--light); padding-top: 2rem; }
+    .about-text p { font-size: 1.05rem; line-height: 1.9; color: #444; margin-bottom: 1.5rem; font-weight: 300; }
+    .about-text p strong { font-weight: 700; color: var(--black); }
 
-    .about-grid { display: grid; grid-template-columns: 2fr 1fr; }
+    .aside-block { border-top: 3px solid var(--black); padding-top: 1.5rem; margin-bottom: 2.5rem; }
+    .aside-label { font-family: var(--mono); font-size: 0.65rem; color: var(--gray); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.8rem; }
+    .aside-big { font-family: var(--serif); font-size: 1.2rem; font-weight: 700; line-height: 1.5; }
 
-    .about-main { border-right: 2px solid var(--black); padding: 3rem; }
-
-    .about-pull {
-      font-family: var(--serif);
-      font-size: 1.55rem;
-      font-style: italic;
-      line-height: 1.55;
-      border-left: 5px solid var(--red);
-      padding-left: 1.5rem;
-      margin-bottom: 2rem;
+    .empty-block {
+      border: 1px dashed var(--light);
+      border-radius: 4px;
+      padding: 3rem;
+      text-align: center;
+      color: var(--gray);
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
     }
-
-    .about-body { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem; }
-    .about-body p { color: #444; line-height: 1.9; font-size: 0.95rem; }
-
-    .about-side { padding: 3rem 2rem; background: var(--cream); }
-    .sidebar-block { margin-bottom: 2.5rem; }
-    .sidebar-rule { height: 2px; background: var(--black); margin-bottom: 1rem; }
-    .sidebar-label { font-family: var(--mono); font-size: 9px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gray); margin-bottom: 0.75rem; }
-    .sidebar-list { list-style: none; }
-
-    .sidebar-list li {
-      font-size: 0.88rem;
-      padding: 0.4rem 0;
-      border-bottom: 1px solid var(--lightgray);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .sidebar-list li::before { content: ''; display: inline-block; width: 5px; height: 5px; background: var(--red); flex-shrink: 0; }
 
     /* PROJECTS */
-    #projects { border-bottom: 3px solid var(--black); }
+    #projects { background: var(--off); }
 
-    .projects-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; }
-
-    .project-card {
-      border-right: 1px solid var(--black);
-      padding: 2.5rem 2rem;
-      transition: background 0.2s;
-      position: relative;
+    .projects-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      border: 1px solid var(--light);
     }
 
-    .project-card:last-child { border-right: none; }
-    .project-card:hover { background: var(--cream); }
+    .project-card {
+      padding: 2.5rem;
+      border-right: 1px solid var(--light);
+      border-bottom: 1px solid var(--light);
+      transition: background 0.2s;
+      position: relative;
+      cursor: pointer;
+    }
 
-    .project-issue { font-family: var(--mono); font-size: 9px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--red); margin-bottom: 1rem; }
-    .project-title { font-family: var(--serif); font-size: 1.3rem; font-weight: 700; line-height: 1.2; margin-bottom: 0.75rem; }
-    .project-desc { font-size: 0.88rem; color: #555; line-height: 1.8; margin-bottom: 1.5rem; }
+    .project-card:nth-child(2n) { border-right: none; }
+    .project-card:nth-last-child(-n+2) { border-bottom: none; }
+    .project-card:hover { background: var(--white); }
 
-    .project-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.5rem; }
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--red);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s;
+    }
 
-    .tag { font-family: var(--mono); font-size: 9px; padding: 3px 8px; border: 1px solid var(--black); letter-spacing: 0.1em; }
+    .project-card:hover::before { transform: scaleX(1); }
 
-    .project-links { display: flex; gap: 1rem; }
+    .project-num { font-family: var(--mono); font-size: 0.65rem; color: var(--red); letter-spacing: 0.1em; margin-bottom: 1rem; }
+    .project-name { font-family: var(--serif); font-size: 1.5rem; font-weight: 700; margin-bottom: 0.8rem; line-height: 1.2; }
+    .project-desc { font-size: 0.88rem; color: #666; line-height: 1.7; margin-bottom: 1.5rem; font-weight: 300; }
+
+    .project-footer { display: flex; justify-content: space-between; align-items: flex-end; }
+    .project-tech { display: flex; flex-wrap: wrap; gap: 0.4rem; }
 
     .project-link {
       font-family: var(--mono);
-      font-size: 9px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      text-decoration: none;
+      font-size: 0.65rem;
       color: var(--gray);
-      padding: 4px 0;
-      border-bottom: 1px solid var(--lightgray);
+      text-decoration: none;
+      letter-spacing: 0.08em;
+      border-bottom: 1px solid var(--light);
       transition: color 0.2s, border-color 0.2s;
+      white-space: nowrap;
     }
 
     .project-link:hover { color: var(--red); border-color: var(--red); }
 
     /* SKILLS */
-    #skills { border-bottom: 3px solid var(--black); }
+    .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; }
 
-    .skills-layout { display: grid; grid-template-columns: 1fr 1fr; }
-
-    .skills-left { border-right: 2px solid var(--black); padding: 3rem; }
-
-    .skill-row {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      padding: 0.85rem 0;
-      border-bottom: 1px solid var(--lightgray);
+    .skill-section-label {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--gray);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--light);
+      padding-bottom: 0.8rem;
+      margin-bottom: 2rem;
     }
 
-    .skill-name { font-family: var(--serif); font-size: 1rem; font-weight: 700; width: 200px; flex-shrink: 0; }
-
-    .skill-bar-wrap { flex: 1; height: 3px; background: var(--lightgray); }
-
-    .skill-bar-fill { height: 100%; background: var(--black); transition: width 1.4s cubic-bezier(0.4,0,0.2,1); }
+    .skill-row { display: grid; grid-template-columns: 60px 1fr 40px; align-items: center; gap: 1rem; margin-bottom: 1.2rem; }
+    .skill-name { font-size: 0.85rem; font-weight: 500; }
+    .skill-bar-track { height: 3px; background: var(--light); }
+    .skill-bar-fill { height: 100%; background: var(--black); width: 0; transition: width 1s cubic-bezier(0.4,0,0.2,1); }
     .skill-bar-fill.red { background: var(--red); }
+    .skill-pct { font-family: var(--mono); font-size: 0.65rem; color: var(--gray); text-align: right; }
 
-    .skill-pct { font-family: var(--mono); font-size: 10px; color: var(--gray); width: 32px; text-align: right; flex-shrink: 0; }
-
-    .skills-right { padding: 3rem; }
-
-    .exp-item { padding: 1.5rem 0; border-bottom: 1px solid var(--lightgray); }
-    .exp-item:last-child { border-bottom: none; }
-
-    .exp-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; }
-    .exp-role { font-family: var(--serif); font-size: 1.1rem; font-weight: 700; }
-    .exp-period { font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em; color: var(--red); white-space: nowrap; }
-    .exp-company { font-size: 0.82rem; color: var(--gray); margin-bottom: 0.5rem; font-family: var(--mono); letter-spacing: 0.05em; }
-    .exp-desc { font-size: 0.88rem; color: #555; line-height: 1.8; }
+    .exp-entry { padding: 1.5rem 0; border-bottom: 1px solid var(--light); display: grid; grid-template-columns: 90px 1fr; gap: 1.5rem; }
+    .exp-entry:first-child { border-top: 1px solid var(--light); }
+    .exp-year { font-family: var(--mono); font-size: 0.7rem; color: var(--gray); padding-top: 3px; }
+    .exp-role { font-family: var(--serif); font-size: 1.1rem; font-weight: 700; margin-bottom: 0.2rem; }
+    .exp-co { font-family: var(--mono); font-size: 0.65rem; color: var(--red); letter-spacing: 0.08em; margin-bottom: 0.5rem; }
+    .exp-desc { font-size: 0.85rem; color: #666; line-height: 1.7; font-weight: 300; }
 
     /* CONTACT */
-    #contact { border-bottom: 3px solid var(--black); }
+    #contact { background: var(--black); }
+    #contact .section-title { color: var(--white); }
+    #contact .section-num { color: var(--red); }
+    #contact .section-header { border-color: #333; }
 
-    .contact-layout { display: grid; grid-template-columns: 1fr 1fr; }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; }
 
-    .contact-left { border-right: 2px solid var(--black); padding: 3rem; }
+    .contact-headline { font-family: var(--serif); font-size: clamp(2rem, 4vw, 3rem); font-weight: 900; color: var(--white); line-height: 1.1; margin-bottom: 1.5rem; }
+    .contact-headline em { color: var(--red); font-style: italic; }
+    .contact-note { font-size: 0.9rem; color: #666; line-height: 1.8; font-weight: 300; margin-bottom: 2rem; }
 
-    .contact-headline {
-      font-family: var(--serif);
-      font-size: clamp(2.5rem, 5vw, 4rem);
-      font-weight: 900;
-      line-height: 1;
-      letter-spacing: -0.03em;
-      margin-bottom: 1.5rem;
-    }
-
-    .contact-headline .italic { font-style: italic; color: var(--red); }
-
-    .contact-desc { color: #555; line-height: 1.9; margin-bottom: 2rem; max-width: 380px; font-size: 0.95rem; }
-
-    .contact-socials { display: flex; flex-direction: column; gap: 0; }
+    .social-links { display: flex; flex-direction: column; gap: 0; }
 
     .social-link {
       display: flex;
       align-items: center;
       gap: 1rem;
+      color: #555;
       text-decoration: none;
-      color: var(--black);
-      padding: 0.75rem 0;
-      border-bottom: 1px solid var(--lightgray);
-      transition: color 0.2s;
-      font-size: 0.88rem;
-    }
-
-    .social-link:hover { color: var(--red); }
-
-    .social-platform { font-family: var(--mono); font-size: 9px; letter-spacing: 0.15em; color: var(--gray); width: 70px; flex-shrink: 0; }
-    .social-arrow { margin-left: auto; transition: transform 0.2s; }
-    .social-link:hover .social-arrow { transform: translateX(4px); }
-
-    .contact-right { padding: 3rem; }
-
-    .form-group { margin-bottom: 1.5rem; }
-
-    .form-label { display: block; font-family: var(--mono); font-size: 9px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gray); margin-bottom: 0.5rem; }
-
-    .form-input, .form-textarea {
-      width: 100%;
-      padding: 0.75rem 0;
-      border: none;
-      border-bottom: 2px solid var(--black);
-      background: transparent;
-      font-family: var(--sans);
-      font-size: 0.95rem;
-      color: var(--black);
-      outline: none;
-      transition: border-color 0.2s;
-    }
-
-    .form-input:focus, .form-textarea:focus { border-color: var(--red); }
-    .form-textarea { resize: none; min-height: 100px; }
-
-    .form-submit {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.75rem;
-      padding: 0.85rem 2rem;
-      background: var(--black);
-      color: var(--white);
-      border: 2px solid var(--black);
       font-family: var(--mono);
-      font-size: 10px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: all 0.2s;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      transition: color 0.2s;
+      padding: 0.9rem 0;
+      border-bottom: 1px solid #222;
     }
 
-    .form-submit:hover { background: var(--red); border-color: var(--red); }
+    .social-link:hover { color: var(--white); }
+    .social-link:hover .sl-arrow { color: var(--red); }
+    .sl-arrow { color: #333; transition: color 0.2s; }
 
-    .form-success { margin-top: 1rem; font-family: var(--mono); font-size: 11px; color: var(--red); letter-spacing: 0.1em; }
+    .contact-form { display: flex; flex-direction: column; gap: 0; }
+    .form-group { border-bottom: 1px solid #222; padding: 1.2rem 0; }
+    .form-label { font-family: var(--mono); font-size: 0.6rem; color: #555; letter-spacing: 0.15em; text-transform: uppercase; display: block; margin-bottom: 0.5rem; }
+    .form-input, .form-textarea { background: transparent; border: none; outline: none; color: var(--white); font-family: var(--sans); font-size: 0.95rem; width: 100%; font-weight: 300; resize: none; }
+    .form-input::placeholder, .form-textarea::placeholder { color: #333; }
+    .form-textarea { min-height: 100px; }
+    .form-submit { margin-top: 2rem; }
 
     /* FOOTER */
-    footer { background: var(--black); color: var(--white); display: grid; grid-template-columns: 1fr 1fr 1fr; }
+    footer {
+      background: var(--red);
+      padding: 1.5rem 4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-    .footer-brand { padding: 2.5rem 3rem; border-right: 1px solid #333; }
-    .footer-logo { font-family: var(--serif); font-size: 1.4rem; font-weight: 900; margin-bottom: 0.5rem; }
-    .footer-logo span { color: var(--red); }
-    .footer-tagline { font-family: var(--mono); font-size: 9px; letter-spacing: 0.15em; color: #888; line-height: 1.8; }
+    .footer-left { font-family: var(--serif); font-weight: 900; font-size: 1rem; color: var(--white); }
+    .footer-right { font-family: var(--mono); font-size: 0.65rem; color: rgba(255,255,255,0.6); letter-spacing: 0.1em; }
 
-    .footer-links { padding: 2.5rem 3rem; border-right: 1px solid #333; }
-    .footer-links-label { font-family: var(--mono); font-size: 9px; letter-spacing: 0.25em; color: #888; margin-bottom: 1rem; text-transform: uppercase; }
-    .footer-links ul { list-style: none; }
-    .footer-links li { padding: 0.3rem 0; }
-    .footer-links a { color: #ccc; text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
-    .footer-links a:hover { color: var(--red); }
-
-    .footer-copy { padding: 2.5rem 3rem; display: flex; flex-direction: column; justify-content: space-between; }
-    .footer-copy-text { font-family: var(--mono); font-size: 9px; color: #888; letter-spacing: 0.1em; line-height: 1.8; }
-
-    /* ANIMATIONS */
-    .fade-up { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
-    .fade-up.visible { opacity: 1; transform: none; }
+    /* REVEAL */
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.in { opacity: 1; transform: none; }
 
     /* RESPONSIVE */
     @media (max-width: 900px) {
-      .hero-inner, .about-grid, .contact-layout, .skills-layout { grid-template-columns: 1fr; }
-      .projects-grid { grid-template-columns: 1fr 1fr; }
-      .hero-left, .about-main, .skills-left, .contact-left { border-right: none; border-bottom: 2px solid var(--black); }
-      .about-body { grid-template-columns: 1fr; }
-      footer { grid-template-columns: 1fr; }
-      .footer-brand, .footer-links { border-right: none; border-bottom: 1px solid #333; }
-      nav ul { display: none; }
-      .cta-block { display: none; }
-    }
-
-    @media (max-width: 600px) {
-      .projects-grid { grid-template-columns: 1fr; }
-      .hero-left, .hero-right-top, .hero-right-bottom,
-      .about-main, .about-side,
-      .contact-left, .contact-right,
-      .skills-left, .skills-right { padding: 2rem 1.5rem; }
-      .section-header { padding: 1.2rem 1.5rem; }
+      #hero { grid-template-columns: 1fr; min-height: auto; }
+      .hero-left, .hero-right { padding: 4rem 2rem; }
+      .about-grid, .skills-grid, .contact-grid { grid-template-columns: 1fr; }
+      .projects-layout { grid-template-columns: 1fr; }
+      .project-card { border-right: 1px solid var(--light) !important; }
+      .project-card:nth-last-child(-n+2) { border-bottom: 1px solid var(--light) !important; }
+      .project-card:last-child { border-bottom: none !important; }
+      .container { padding: 0 1.5rem; }
+      footer { padding: 1.5rem; flex-direction: column; gap: 0.5rem; text-align: center; }
+      nav { flex-wrap: wrap; }
+      .nav-date { display: none; }
     }
   </style>
 </head>
 <body>
 <div id="app">
 
-  <div class="issue-tape">Vol. 01 &nbsp;·&nbsp; 2026 &nbsp;·&nbsp; Portfolio Edition &nbsp;·&nbsp; Taipei, Taiwan</div>
-
+  <!-- NAV -->
   <nav>
-    <a class="nav-logo" href="#hero">WX<span>.</span></a>
-    <ul class="nav-links">
-      <li><a href="#about" :class="{active: activeSection==='about'}">關於</a></li>
-      <li><a href="#projects" :class="{active: activeSection==='projects'}">作品集</a></li>
-      <li><a href="#skills" :class="{active: activeSection==='skills'}">技能</a></li>
-      <li><a href="#contact" :class="{active: activeSection==='contact'}">聯絡</a></li>
-    </ul>
+    <div class="nav-issue">VOL.01</div>
+    <div class="nav-logo">JH</div>
+    <div class="nav-links">
+      <a href="#about" :class="{active: activeSection==='about'}">關於</a>
+      <a href="#projects" :class="{active: activeSection==='projects'}">作品集</a>
+      <a href="#skills" :class="{active: activeSection==='skills'}">技能</a>
+      <a href="#contact" :class="{active: activeSection==='contact'}">聯絡</a>
+    </div>
+    <div class="nav-date">TAMSUI · {{ year }}</div>
   </nav>
 
   <!-- HERO -->
   <section id="hero">
-    <div class="hero-inner">
-      <div class="hero-left">
-        <div class="issue-label">Issue 01 · Developer Portfolio · 2026</div>
-        <div class="hero-headline">
-          <div>FULL</div>
-          <div class="line-red">Stack</div>
-          <div class="line-outline">DEV.</div>
-        </div>
-        <div>
-          <div class="hero-byline-rule"></div>
-          <div class="hero-role">Full-Stack Developer · Taipei</div>
-          <div class="hero-name">王小明 — Wang Xiaoming</div>
+    <div class="hero-left">
+      <div>
+        <div class="hero-eyebrow">// 機器人講師 · Issue 01</div>
+        <h1 class="hero-headline">
+          JOSEPH<br>
+          <em>HUANG</em>
+        </h1>
+        <p class="hero-subhead">
+          人形機器人講師，致力於把複雜的機器人技術<br>
+          用最直覺的方式傳遞給每一位學習者。
+        </p>
+      </div>
+      <div class="hero-bottom">
+        <a href="#projects" class="btn-primary">查看作品集</a>
+        <a href="#contact" class="btn-ghost">聯絡我</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div>
+        <div class="issue-label">Feature · Robotics Instructor</div>
+        <blockquote class="hero-pull">
+          「讓機器人技術走進每個人的生活。」
+        </blockquote>
+        <div class="hero-tags">
+          <span class="tag red">人形機器人</span>
+          <span class="tag">教學設計</span>
+          <span class="tag outline">ROS</span>
+          <span class="tag outline">Arduino</span>
+          <span class="tag outline">AI 應用</span>
         </div>
       </div>
-      <div class="hero-right">
-        <div class="hero-right-top">
-          <p class="hero-intro">
-            用程式碼構築數位世界的建築師。<br>
-            我相信好的產品源於<em>對細節的偏執</em>，<br>
-            以及對使用者體驗近乎苛求的堅持。
-          </p>
+      <div class="hero-stat-grid">
+        <div class="hero-stat">
+          <div class="stat-num">3<span>+</span></div>
+          <div class="stat-label">年教學經驗</div>
         </div>
-        <div class="hero-right-bottom">
-          <div class="stat">
-            <div class="stat-num">5+</div>
-            <div class="stat-label">年經驗</div>
-          </div>
-          <div class="stat">
-            <div class="stat-num">30+</div>
-            <div class="stat-label">完成專案</div>
-          </div>
-          <div class="stat">
-            <div class="stat-num">8</div>
-            <div class="stat-label">開源貢獻</div>
-          </div>
-          <div class="cta-block">
-            <a href="#projects" class="btn btn-fill">作品集</a>
-            <a href="#contact" class="btn btn-outline">聯繫我</a>
-          </div>
+        <div class="hero-stat">
+          <div class="stat-num">—</div>
+          <div class="stat-label">完成課程</div>
+        </div>
+        <div class="hero-stat">
+          <div class="stat-num">—</div>
+          <div class="stat-label">學員人數</div>
+        </div>
+        <div class="hero-stat">
+          <div class="stat-num">∞</div>
+          <div class="stat-label">對機器人的熱情</div>
         </div>
       </div>
     </div>
@@ -494,45 +539,40 @@
 
   <!-- ABOUT -->
   <section id="about">
-    <div class="section-header">
-      <div class="section-num">01</div>
-      <div>
-        <div class="section-label-sm">Section One</div>
-        <div class="section-title-lg">關於我</div>
+    <div class="container">
+      <div class="section-header">
+        <span class="section-num">01 —</span>
+        <h2 class="section-title">關於我</h2>
+        <div class="section-rule"></div>
+        <span class="section-sub">About</span>
       </div>
-    </div>
-    <div class="about-grid">
-      <div class="about-main fade-up">
-        <div class="about-pull">「寫程式對我而言不只是工作，而是一種思考與表達的方式。」</div>
-        <div class="about-body">
-          <p>我是一位全端開發者，擅長從零打造完整產品。從系統架構設計到使用者介面優化，享受每一個環節的挑戰。5 年以上的實戰經驗讓我能夠在速度與品質之間找到最佳平衡。</p>
-          <p>平時熱愛研究新技術與開源生態，相信好的程式碼不只要能跑，更要讓人讀懂、好維護。目前對 AI 應用整合與邊緣運算特別感興趣，持續在探索中。</p>
+      <div class="about-grid">
+        <div class="about-text reveal">
+          <div class="empty-block">// 自我介紹 · 即將更新</div>
         </div>
-      </div>
-      <div class="about-side fade-up">
-        <div class="sidebar-block">
-          <div class="sidebar-rule"></div>
-          <div class="sidebar-label">核心技術</div>
-          <ul class="sidebar-list">
-            <li v-for="tech in techStack" :key="tech">{{ tech }}</li>
-          </ul>
-        </div>
-        <div class="sidebar-block">
-          <div class="sidebar-rule"></div>
-          <div class="sidebar-label">學歷</div>
-          <ul class="sidebar-list">
-            <li>國立台灣大學 資訊工程學系</li>
-            <li>畢業年份：2019</li>
-          </ul>
-        </div>
-        <div class="sidebar-block">
-          <div class="sidebar-rule"></div>
-          <div class="sidebar-label">語言</div>
-          <ul class="sidebar-list">
-            <li>中文（母語）</li>
-            <li>英文（流利）</li>
-            <li>日文（基礎）</li>
-          </ul>
+        <div class="about-aside reveal">
+          <div class="aside-block">
+            <div class="aside-label">// 所在地</div>
+            <div class="aside-big">淡水，台灣</div>
+          </div>
+          <div class="aside-block">
+            <div class="aside-label">// 目前狀態</div>
+            <div class="aside-big" style="color:var(--red)">人形機器人講師</div>
+          </div>
+          <div class="aside-block">
+            <div class="aside-label">// 語言能力</div>
+            <div style="font-size:0.95rem; line-height:1.9; font-weight:300">
+              中文（母語）<br>
+              English（基礎）<br>
+              日本語（入門）
+            </div>
+          </div>
+          <div class="aside-block">
+            <div class="aside-label">// 學歷</div>
+            <div style="font-size:0.95rem; line-height:1.7; font-weight:400">
+              大專
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -540,56 +580,49 @@
 
   <!-- PROJECTS -->
   <section id="projects">
-    <div class="section-header">
-      <div class="section-num">02</div>
-      <div>
-        <div class="section-label-sm">Section Two</div>
-        <div class="section-title-lg">作品集</div>
+    <div class="container">
+      <div class="section-header">
+        <span class="section-num">02 —</span>
+        <h2 class="section-title">作品集</h2>
+        <div class="section-rule"></div>
+        <span class="section-sub">Selected Work</span>
       </div>
-    </div>
-    <div class="projects-grid">
-      <div class="project-card fade-up" v-for="(p, i) in projects" :key="i">
-        <div class="project-issue">No. {{ String(i+1).padStart(2,'0') }}</div>
-        <div class="project-title">{{ p.name }}</div>
-        <div class="project-desc">{{ p.desc }}</div>
-        <div class="project-tags">
-          <span class="tag" v-for="t in p.tags" :key="t">{{ t }}</span>
-        </div>
-        <div class="project-links">
-          <a href="#" class="project-link">GitHub →</a>
-          <a href="#" class="project-link" v-if="p.live">Live →</a>
-        </div>
+      <div class="empty-block reveal" style="padding:5rem">
+        // 作品集 · 即將更新
       </div>
     </div>
   </section>
 
   <!-- SKILLS -->
   <section id="skills">
-    <div class="section-header">
-      <div class="section-num">03</div>
-      <div>
-        <div class="section-label-sm">Section Three</div>
-        <div class="section-title-lg">技能 & 經歷</div>
+    <div class="container">
+      <div class="section-header">
+        <span class="section-num">03 —</span>
+        <h2 class="section-title">技能與經歷</h2>
+        <div class="section-rule"></div>
+        <span class="section-sub">Skills & Experience</span>
       </div>
-    </div>
-    <div class="skills-layout">
-      <div class="skills-left fade-up">
-        <div class="skill-row" v-for="s in skills" :key="s.name">
-          <div class="skill-name">{{ s.name }}</div>
-          <div class="skill-bar-wrap">
-            <div class="skill-bar-fill" :class="{red: s.red}" :style="{width: skillsVisible ? s.pct+'%' : '0%'}"></div>
+      <div class="skills-grid">
+        <div class="reveal">
+          <div class="skill-section-label">語言能力</div>
+          <div v-for="s in skills" :key="s.name" class="skill-row">
+            <span class="skill-name">{{ s.name }}</span>
+            <div class="skill-bar-track">
+              <div class="skill-bar-fill" :class="{red: s.red}" :data-w="s.pct"></div>
+            </div>
+            <span class="skill-pct">{{ s.pct }}%</span>
           </div>
-          <div class="skill-pct">{{ s.pct }}%</div>
         </div>
-      </div>
-      <div class="skills-right fade-up">
-        <div class="exp-item" v-for="e in experience" :key="e.role">
-          <div class="exp-header">
-            <div class="exp-role">{{ e.role }}</div>
-            <div class="exp-period">{{ e.period }}</div>
+        <div class="reveal">
+          <div class="skill-section-label">工作經歷</div>
+          <div class="exp-entry" v-for="e in experience" :key="e.role">
+            <div class="exp-year">{{ e.period }}</div>
+            <div>
+              <div class="exp-role">{{ e.role }}</div>
+              <div class="exp-co">{{ e.company }}</div>
+              <div class="exp-desc">{{ e.desc }}</div>
+            </div>
           </div>
-          <div class="exp-company">{{ e.company }}</div>
-          <div class="exp-desc">{{ e.desc }}</div>
         </div>
       </div>
     </div>
@@ -597,160 +630,113 @@
 
   <!-- CONTACT -->
   <section id="contact">
-    <div class="section-header">
-      <div class="section-num">04</div>
-      <div>
-        <div class="section-label-sm">Section Four</div>
-        <div class="section-title-lg">聯絡我</div>
+    <div class="container">
+      <div class="section-header">
+        <span class="section-num">04 —</span>
+        <h2 class="section-title">聯絡</h2>
+        <div class="section-rule" style="background:#222"></div>
+        <span class="section-sub" style="color:#555">Contact</span>
       </div>
-    </div>
-    <div class="contact-layout">
-      <div class="contact-left fade-up">
-        <div class="contact-headline">
-          Let's<br><span class="italic">Work</span><br>Together.
+      <div class="contact-grid">
+        <div class="reveal">
+          <h3 class="contact-headline">Let's Talk<br><em>Robotics</em></h3>
+          <p class="contact-note">
+            有課程合作、演講邀約，或對機器人教學有興趣？<br>
+            歡迎隨時聯繫，我通常在 24 小時內回覆。
+          </p>
+          <div class="social-links">
+            <a href="mailto:beerobot.tw@gmail.com" class="social-link">
+              <span class="sl-arrow">→</span> beerobot.tw@gmail.com
+            </a>
+          </div>
         </div>
-        <p class="contact-desc">有合作機會、專案討論或技術交流？歡迎隨時聯絡，我通常在 24 小時內回覆。</p>
-        <div class="contact-socials">
-          <a href="#" class="social-link">
-            <span class="social-platform">GITHUB</span>
-            <span>github.com/username</span>
-            <span class="social-arrow">→</span>
-          </a>
-          <a href="#" class="social-link">
-            <span class="social-platform">LINKEDIN</span>
-            <span>linkedin.com/in/username</span>
-            <span class="social-arrow">→</span>
-          </a>
-          <a href="mailto:hello@example.com" class="social-link">
-            <span class="social-platform">EMAIL</span>
-            <span>hello@example.com</span>
-            <span class="social-arrow">→</span>
-          </a>
+        <div class="contact-form reveal">
+          <div class="form-group">
+            <label class="form-label">姓名</label>
+            <input class="form-input" type="text" placeholder="你的名字" v-model="form.name">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email</label>
+            <input class="form-input" type="email" placeholder="email@example.com" v-model="form.email">
+          </div>
+          <div class="form-group">
+            <label class="form-label">主旨</label>
+            <input class="form-input" type="text" placeholder="課程合作 · 演講邀約 · 其他" v-model="form.subject">
+          </div>
+          <div class="form-group">
+            <label class="form-label">訊息</label>
+            <textarea class="form-textarea" placeholder="告訴我更多..." v-model="form.message"></textarea>
+          </div>
+          <div class="form-submit">
+            <button class="btn-primary" @click="submitForm">{{ submitted ? '已送出 ✓' : '送出訊息 →' }}</button>
+          </div>
         </div>
-      </div>
-      <div class="contact-right fade-up">
-        <div class="form-group">
-          <label class="form-label">姓名</label>
-          <input class="form-input" type="text" placeholder="你的名字" v-model="form.name" />
-        </div>
-        <div class="form-group">
-          <label class="form-label">Email</label>
-          <input class="form-input" type="email" placeholder="email@example.com" v-model="form.email" />
-        </div>
-        <div class="form-group">
-          <label class="form-label">主旨</label>
-          <input class="form-input" type="text" placeholder="合作提案 / 技術諮詢 / ..." v-model="form.subject" />
-        </div>
-        <div class="form-group">
-          <label class="form-label">訊息</label>
-          <textarea class="form-textarea" placeholder="告訴我更多..." v-model="form.message"></textarea>
-        </div>
-        <button class="form-submit" @click="submitForm">
-          <span>送出訊息</span><span>→</span>
-        </button>
-        <div class="form-success" v-if="formSent">✓ 訊息已送出，感謝聯繫！</div>
       </div>
     </div>
   </section>
 
-  <!-- FOOTER -->
   <footer>
-    <div class="footer-brand">
-      <div class="footer-logo">WX<span>.</span></div>
-      <div class="footer-tagline">Full-Stack Developer<br>Taipei · Taiwan · 2026</div>
-    </div>
-    <div class="footer-links">
-      <div class="footer-links-label">導覽</div>
-      <ul>
-        <li><a href="#about">關於我</a></li>
-        <li><a href="#projects">作品集</a></li>
-        <li><a href="#skills">技能與經歷</a></li>
-        <li><a href="#contact">聯絡方式</a></li>
-      </ul>
-    </div>
-    <div class="footer-copy">
-      <div class="footer-copy-text">© 2026 王小明<br>All rights reserved.<br>Built with Vue.js · Hosted on Vercel</div>
-      <div class="footer-copy-text" style="color:#555">Design inspired by<br>editorial print culture.</div>
-    </div>
+    <div class="footer-left">Joseph Huang · 機器人講師</div>
+    <div class="footer-right">© {{ year }} · TAMSUI, TAIWAN · ALL RIGHTS RESERVED</div>
   </footer>
 
 </div>
 
 <script>
-const { createApp, ref, reactive, onMounted } = Vue;
-
+const { createApp, ref, onMounted } = Vue;
 createApp({
   setup() {
-    const activeSection = ref('');
-    const skillsVisible = ref(false);
-    const formSent = ref(false);
-    const form = reactive({ name: '', email: '', subject: '', message: '' });
-
-    const techStack = [
-      'JavaScript / TypeScript',
-      'React / Next.js / Vue',
-      'Node.js / Express / FastAPI',
-      'PostgreSQL / Redis / MongoDB',
-      'Docker / Kubernetes / CI-CD',
-      'AWS / GCP / Vercel',
-    ];
-
-    const projects = [
-      { name: 'SaaS Dashboard', desc: '多租戶 SaaS 平台，含即時數據分析、權限管理與訂閱付款流程，DAU 成長 3 倍。', tags: ['React', 'Node.js', 'PostgreSQL', 'Stripe'], live: true },
-      { name: 'AI 文件助理', desc: '結合 RAG 架構的智慧文件問答系統，支援多格式上傳與向量搜尋，回答準確率 91%。', tags: ['Python', 'FastAPI', 'LangChain', 'Pinecone'], live: true },
-      { name: '任務協作 App', desc: '支援即時同步的跨平台任務管理工具，含離線模式與衝突解決機制。', tags: ['React Native', 'Firebase', 'TypeScript'], live: false },
-      { name: '電商平台', desc: '高效能電商解決方案，SSR 優化、商品搜尋與物流追蹤整合，轉換率提升 25%。', tags: ['Next.js', 'Tailwind', 'Redis', 'Docker'], live: true },
-      { name: 'DevOps 監控系統', desc: '輕量化自托管監控平台，支援 Webhook 告警與 Grafana 視覺化整合。', tags: ['Go', 'Prometheus', 'Grafana', 'K8s'], live: false },
-      { name: '開源 Auth 套件', desc: '簡單好用的 JWT + OAuth2 認證套件，已被 500+ 專案採用，週下載量 12k+。', tags: ['TypeScript', 'JWT', 'OAuth2'], live: true },
-    ];
+    const year = new Date().getFullYear();
+    const activeSection = ref('about');
+    const submitted = ref(false);
+    const form = ref({ name:'', email:'', subject:'', message:'' });
 
     const skills = [
-      { name: 'JavaScript / TypeScript', pct: 95, red: true },
-      { name: 'React / Next.js', pct: 90, red: false },
-      { name: 'Node.js / Python', pct: 85, red: false },
-      { name: 'PostgreSQL / Redis', pct: 80, red: false },
-      { name: 'Docker / Kubernetes', pct: 75, red: false },
-      { name: 'Go', pct: 65, red: false },
+      { name:'中文', pct:99, red:true },
+      { name:'English', pct:50 },
+      { name:'日本語', pct:30 },
     ];
 
     const experience = [
-      { role: 'Senior Full-Stack Engineer', company: '某科技新創公司', period: '2022 — 至今', desc: '主導核心產品架構設計，帶領 3 人小組交付 SaaS 平台，DAU 成長 3 倍。引入 TypeScript 與 CI/CD，縮短 Bug 修復週期 50%。' },
-      { role: 'Front-End Developer', company: '數位行銷代理商', period: '2020 — 2022', desc: '負責 15+ 品牌官網開發，導入 CI/CD 流程，縮短部署時間 60%，並建立可重用元件庫。' },
-      { role: 'Junior Developer', company: '系統整合公司', period: '2019 — 2020', desc: '參與企業 ERP 系統維護與新功能開發，累積後端 API 設計與資料庫優化的基礎。' },
+      { period:'3 年', role:'人形機器人講師', company:'BeeRobot', desc:'專注於人形機器人教學，設計課程內容，帶領學員從零開始認識機器人技術。' },
     ];
 
     function submitForm() {
-      if (!form.name || !form.email) return;
-      formSent.value = true;
-      Object.keys(form).forEach(k => form[k] = '');
+      submitted.value = true;
+      setTimeout(() => { submitted.value = false; form.value = { name:'', email:'', subject:'', message:'' }; }, 3000);
     }
 
     onMounted(() => {
-      const fadeEls = document.querySelectorAll('.fade-up');
-      const revObs = new IntersectionObserver((entries) => {
+      const sections = ['about','projects','skills','contact'];
+      const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) activeSection.value = e.target.id; });
+      }, { threshold: 0.35 });
+      sections.forEach(id => { const el = document.getElementById(id); if (el) obs.observe(el); });
+
+      const revealEls = document.querySelectorAll('.reveal');
+      const ro = new IntersectionObserver((entries) => {
         entries.forEach((e, i) => {
           if (e.isIntersecting) {
-            setTimeout(() => e.target.classList.add('visible'), i * 100);
-            revObs.unobserve(e.target);
+            setTimeout(() => e.target.classList.add('in'), i * 100);
+            ro.unobserve(e.target);
           }
         });
       }, { threshold: 0.08 });
-      fadeEls.forEach(el => revObs.observe(el));
+      revealEls.forEach(el => ro.observe(el));
 
-      const skillsSection = document.querySelector('#skills');
-      const skillObs = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting) { skillsVisible.value = true; skillObs.disconnect(); }
-      }, { threshold: 0.2 });
-      skillObs.observe(skillsSection);
-
-      const sections = ['about', 'projects', 'skills', 'contact'];
-      const secObs = new IntersectionObserver((entries) => {
-        entries.forEach(e => { if (e.isIntersecting) activeSection.value = e.target.id; });
-      }, { threshold: 0.4 });
-      sections.forEach(id => { const el = document.getElementById(id); if (el) secObs.observe(el); });
+      const fills = document.querySelectorAll('.skill-bar-fill');
+      const so = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            setTimeout(() => { e.target.style.width = e.target.dataset.w + '%'; }, 300);
+            so.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.3 });
+      fills.forEach(el => so.observe(el));
     });
 
-    return { activeSection, skillsVisible, formSent, form, techStack, projects, skills, experience, submitForm };
+    return { year, activeSection, skills, experience, form, submitted, submitForm };
   }
 }).mount('#app');
 </script>
